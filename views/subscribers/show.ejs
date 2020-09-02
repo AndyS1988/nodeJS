@@ -1,0 +1,34 @@
+<div>
+    <h2>Subscriber Data for
+        <%= subscriber.name %>
+    </h2>
+    <table class="table">
+    <tr>
+        <th>Name</th>
+        <td>
+        <%= subscriber.name %>
+        </td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>
+        <%= subscriber.email%>
+        </td>
+    </tr>
+    <tr>
+        <th>Zip Code</th>
+        <td>
+        <%= subscriber.zipCode%>
+        </td>
+    </tr>
+    </table>
+    <p>This subscriber has  <%= subscriber.courses.length %> associated courses.</p>
+    <button class="btn btn-secondary" onclick="goBack()">
+        <script>
+        function goBack() {
+        window.history.back();
+        }
+        </script>
+    BACK
+    </button>
+</div>

@@ -1,0 +1,54 @@
+<div>
+    <h2>Users Table</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Zip Code</th>
+                <th>Subsriber Account</th>
+                <th>Courses</th>
+                <th>Edit</th>
+                <th>Deleter</th>
+            </tr>
+        </thead>
+        <tbody>
+            <a>
+            <% users.forEach(user => { %>
+            <tr>
+                <td>
+                    <a href="<%= `users/${user._id}` %>">
+                        <%= user.fullName %>
+                    </a>
+                    
+                </td>
+                <td>
+                    <%= user.email %>
+                </td>
+                <td>
+                    <%= user.zipCode %>
+                </td>
+                <td>
+                    <%= user.subscribedAccount %>
+                </td>
+                <td>
+                    <% user.courses.forEach(course => { %>
+                        <span>
+                            <%= course %>
+                        </span>
+                        <% }); %>
+                </td>
+                <td>
+                    <a href="<%= `/users/${user._id}/edit` %>">Edit</a>
+                </td>
+                <td>
+                    <a href="<%=`/users/${user._id}/delete?_method=DELETE` %>" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <div>
+        <a class="btn btn-secondary" href="/users/new">Register a New User</a>
+    </div><br>
+</div>

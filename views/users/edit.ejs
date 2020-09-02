@@ -1,0 +1,26 @@
+<div>
+    <h1>Edit user:</h1>
+    <form class="form-signin" method="POST" action="<%= `/users/${user._id}/update?_method=PUT` %>">
+        <div class="form-group">
+            <label for="inputFirstName">First Name</label>
+            <input type="text" name="first" id="inputFirstName" value="<%= user.name.first %>" class="form-control" placeholder="First" autofocus />
+        </div>
+        <div class="form-group">
+            <label for="inputLastName">Last Name</label>
+            <input type="text" name="last" id="inputLastName" value="<%= user.name.last %>" class="form-control" placeholder="Last" />
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" value="<%= user.password %>" class="form-control" placeholder="Password" required />
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <input type="email" name="email" id="inputEmail" value="<%= user.email %>" class="form-control" placeholder="Email address" required />
+        </div>
+        <div class="form-group">
+            <label for="inputZipCode">Zip Code</label>
+            <input type="text" name="zipCode" id="inputZipCode" pattern="\d*" value="<%= user.zipCode %>" class="form-control" placeholder="Zip Code" required />
+        </div><br />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+    </form>
+</div>

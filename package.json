@@ -1,0 +1,29 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "confetti_cuisine project",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon main.js"
+  },
+  "author": "Andrea Spaska-Cox",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "http-status-codes": "^1.4.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.27"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
