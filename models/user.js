@@ -3,7 +3,8 @@
 const mongoose = require("mongoose"),
     {Schema} = mongoose,
     Subscriber = require("./subscriber"),
-    bcrypt = require("bcrypt");
+   // bcrypt = require("bcrypt"),
+    passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new Schema({
     name: {
@@ -26,10 +27,6 @@ const userSchema = new Schema({
       type: Number,
       min: [10000, "Zip code entered was too short, please try again"],
       max: 90000
-    },
-    password: {
-        type: String,
-        required: true
     },
     courses: [{type: Schema.Types.ObjectId, ref: "Course"}],
     subscribedAccount: {type: Schema.Types.ObjectId, ref: "Subscriber"},
@@ -61,6 +58,12 @@ userSchema.pre("save", function(next) {
       }
 });
 
+// the plugin creates salt and hash fields on the user model & treat the email attribute as a valid field for login:
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email"
+});
+
+/* Using passport methods instead of bcrypt
 userSchema.pre("save", function(next) {
   let user = this; //preserving context
 
@@ -74,10 +77,9 @@ userSchema.pre("save", function(next) {
       next(error);
     });
 });
-
 userSchema.methods.passwordComparison = function(inputPassword) {
   let user = this; //preserving context
   return bcrypt.compare(inputPassword, user.password);
-}
+}*/
 
 module.exports = mongoose.model("User", userSchema);

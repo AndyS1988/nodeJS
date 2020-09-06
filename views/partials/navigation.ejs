@@ -6,5 +6,15 @@
     <a class="nav-link btn btn-primary" href="/subscribers/new">Contact</a>
     <a class="nav-link btn btn-primary" href="/subscribers">Subsribers</a>
     <a class="nav-link btn btn-primary" href="/users">Registered Users</a>
-    <a class="nav-link btn btn-primary" href="/users/login">User Login</a>
+
+    <% if (loggedIn) { %>
+        <div class="logged-in-nav">
+            <p>Logged in as 
+                <a class="nav-link" href="<%=`users/${currentUser._id}`%>" style="display:inline; padding-left: 5px;"><%= currentUser.fullName %></a>
+            </p>
+            <a class="nav-link zero-padder" href="/users/logout">Log Out</a>
+        </div>
+	<% } else { %>
+		<a class="nav-link btn btn-primary" href="/users/login">Log In</a>
+	<% } %>
 </nav>

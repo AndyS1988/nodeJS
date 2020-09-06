@@ -68,6 +68,16 @@ a.btn-primary:not(:disabled):not(.disabled):active {
     height: 60px;
 }
 
+.logged-in-nav {
+    position: absolute;
+    right: 15px;
+}
+
+.logged-in-nav a.nav-link {
+    color: #a8dadc;
+    font-weight: 700;
+}
+
 .alert {
     height: 86px;
     z-index: 5000;
@@ -88,4 +98,8 @@ a.btn-primary:not(:disabled):not(.disabled):active {
 
 .wrapper {
     padding: 15px;
+}
+
+.zero-padder {
+    padding: 0px;
 }
