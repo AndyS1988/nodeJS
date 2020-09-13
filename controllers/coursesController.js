@@ -24,7 +24,7 @@ module.exports = {
       });
   },
   indexView: (req, res) => {
-    res.render("courses/index");
+    req.query.format === "json" ? res.json(res.locals.courses) : res.render("courses/index"); 
   },
 
   new: (req, res) => {

@@ -25,7 +25,26 @@
 	</div>
 	<div id="footer" class="text-uppercase">footer</div>
 
+	<!-- courses modal (cannot be inside any other element so it is not rendered beghind the overlay -->
+	<div class="modal" id="coursesModal" tabindex="-1" aria-labelledby="coursesModal" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLabel">Latest Courses</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer"></div>
+			<a href="/courses">See All</a>
+		  </div>
+		</div>
+	</div>
 
+	<script type="text/javascript" src="/css/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/css/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/recipeApp.js"></script>
 </body>
 
 </html>
