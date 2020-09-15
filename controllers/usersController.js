@@ -28,8 +28,9 @@ module.exports = {
             })
     },
     indexView: (req, res) => {
-        res.render("users/index");
+      req.query.format === "json" ? res.json(res.locals.users) : res.render("users/index");   
     },
+    
     new: (req, res) => {
         res.render("users/new")
     },
@@ -91,7 +92,7 @@ module.exports = {
               last: req.body.last
             },
             email: req.body.email,
-            password: req.body.password,
+           // password: req.body.password,
             zipCode: req.body.zipCode
           };
         User.findByIdAndUpdate(userId, {

@@ -1,5 +1,8 @@
 "use strict";
 
+const httpStatus = require("http-status-codes"),
+  User = require("../models/user");
+
 const Course = require("../models/course"),
   getCourseParams = body => {
     return {
@@ -12,6 +15,7 @@ const Course = require("../models/course"),
   };
 
 module.exports = {
+  
   index: (req, res, next) => {
     Course.find()
       .then(courses => {
@@ -23,6 +27,7 @@ module.exports = {
         next(error);
       });
   },
+
   indexView: (req, res) => {
     req.query.format === "json" ? res.json(res.locals.courses) : res.render("courses/index"); 
   },
@@ -111,5 +116,67 @@ module.exports = {
         console.log(`Error deleting course by ID: ${error.message}`);
         next();
       });
+  },
+
+  filterUserCourses: (req, res, next) => {
+    let currentUser = res.locals.currentUser;
+    if (currentUser) {
+      let mappedCourses = res.locals.courses.map(course => {
+        let userJoined = currentUser.courses.some(userCourse => {
+          return userCourse.equals(course._id);
+        })
+        return Object.assign(course.toObject(), {joined: userJoined});
+      })
+      res.locals.courses = mappedCourses;
+      next();
+    } else {
+      next();
+    }
+  },
+
+  join: (req, res, next) => {
+    let courseId = req.params.id,
+      currentUser = req.user;
+
+    if (currentUser) {
+      User.findByIdAndUpdate(currentUser, {
+        $addToSet: {
+          courses: courseId
+        }
+      })
+      .then(() => {
+        res.locals.success = true;
+        next();
+      })
+      .catch(error => {
+        next(error);
+      })
+    } else {
+      next(new Error("You must be logged in to join courses"));
+    }
+  },
+
+  respondJSON: (req,res) => {
+    res.json({
+      status: httpStatus.OK,
+      data: res.locals
+    });
+  },
+
+  errorJSON: (error, req, res, next) => {
+    let errorObj;
+
+    if (error) {
+      errorObj = {
+        status: httpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message
+      };
+    } else {
+      errorObj = {
+        status: httpStatus.INTERNAL_SERVER_ERROR,
+        message: 'uknown error'
+      }
+    }
+    res.json(errorObj);
   }
 };

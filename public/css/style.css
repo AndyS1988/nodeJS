@@ -30,6 +30,10 @@ a.btn-primary:not(:disabled):not(.disabled):active {
     color: #a8dadc;
 }
 
+.btn.disabled {
+    cursor: not-allowed;
+}
+
 #container {
     background-color: #a8dadc;
     height: 100vh;

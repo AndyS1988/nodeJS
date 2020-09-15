@@ -22,7 +22,7 @@ module.exports = {
         });
     },
     indexView: (req, res) => {
-        res.render("subscribers/index");
+        req.query.format === "json" ? res.json(res.locals.subscribers) : res.render("subscribers/index"); 
     },
 
     new: (req, res) => {
