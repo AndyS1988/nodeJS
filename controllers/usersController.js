@@ -2,6 +2,8 @@
 
 const User = require("../models/user"),
 passport = require("passport"),
+httpStatus = require("http-status-codes"),
+jsonWebToken = require("jsonwebtoken"),
   getUserParams = body => {
     return {
       name: {
@@ -27,6 +29,7 @@ module.exports = {
                 next(error);
             })
     },
+
     indexView: (req, res) => {
       req.query.format === "json" ? res.json(res.locals.users) : res.render("users/index");   
     },
@@ -51,11 +54,13 @@ module.exports = {
           }
         });
     },
+
     redirectView: (req, res, next) => {
         let redirectPath = res.locals.redirect;
         if (redirectPath) res.redirect(redirectPath)
         else next();
     },
+
     show: (req, res, next) => {
         let userID = req.params.id;
         User.findById(userID)
@@ -68,9 +73,11 @@ module.exports = {
                 next(error);
             });
     },
+
     showView: (req, res) => {
         res.render("users/show");
     },
+
     edit: (req, res, next) => {
         let userId = req.params.id;
         User.findById(userId)
@@ -83,7 +90,8 @@ module.exports = {
             console.log(`Error fetching user by ID: ${error.message}`);
             next(error);
           });
-      },
+    },
+
     update: (req, res, next) => {
         let userId = req.params.id,
           userParams = {
@@ -110,22 +118,24 @@ module.exports = {
             next(error);
           });
       },
-    delete: (req, res, next) => {
-        let userId = req.params.id;
-        User.findByIdAndRemove(userId)
-          .then(() => {
-            req.flash("success", `Account was deleted.`);
-            res.locals.redirect = "/users";
-            next();
-          })
-          .catch(error => {
-            console.log(`Error deleting user by ID: ${error.message}`);
-            req.flash("error", `Failed to delete user account due to ${error.message}.`);
-            next();
-          });
+
+      delete: (req, res, next) => {
+          let userId = req.params.id;
+          User.findByIdAndRemove(userId)
+            .then(() => {
+              req.flash("success", `Account was deleted.`);
+              res.locals.redirect = "/users";
+              next();
+            })
+            .catch(error => {
+              console.log(`Error deleting user by ID: ${error.message}`);
+              req.flash("error", `Failed to delete user account due to ${error.message}.`);
+              next();
+            });
       },
-    login: (req, res) => {
-        res.render("users/login")
+
+      login: (req, res) => {
+          res.render("users/login")
       },
       
       authenticate: passport.authenticate("local", {
@@ -134,12 +144,14 @@ module.exports = {
         successRedirect: "/",
         successFlash: "Logged in!"
     }),
+
     logout: (req, res, next) => {
       req.logout();
       req.flash("success", "You have been logged out.");
       res.locals.redirect = "/";
       next();
     },
+    
     validate: (req, res, next) => {
       req
         .sanitizeBody("email")
@@ -169,5 +181,58 @@ module.exports = {
           next();
         }
       });
+    },
+
+    apiAuthenticate: (req, res, next) => {
+      passport.authenticate("local", (errors, user) => {
+        if (user) {
+          let signedToken = jsonWebToken.sign(
+            {
+              data: user._id,
+              exp: new Date().setDate(new Date().getDate() + 1)
+            },
+            "secret_encoding_passphrase"
+          );
+          res.json({
+            success: true,
+            token: signedToken
+          });
+        } else
+          res.json({
+            success: false,
+            message: "Could not authenticate user."
+          });
+      })(req, res, next);
+    },
+
+    verifyJWT: (req, res, next) => {
+      let token = req.headers.token;
+      if (token) {
+        jsonWebToken.verify(token, "secret_encoding_passphrase", (errors, payload) => {
+          if (payload) {
+            User.findById(payload.data).then(user => {
+              if (user) {
+                next();
+              } else {
+                res.status(httpStatus.FORBIDDEN).json({
+                  error: true,
+                  message: "No User account found."
+                });
+              }
+            });
+          } else {
+            res.status(httpStatus.UNAUTHORIZED).json({
+              error: true,
+              message: "Cannot verify API token."
+            });
+            next();
+          }
+        });
+      } else {
+        res.status(httpStatus.UNAUTHORIZED).json({
+          error: true,
+          message: "Provide Token"
+        });
+      }
     }
 };

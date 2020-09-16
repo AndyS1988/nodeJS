@@ -1,7 +1,7 @@
 $(document).ready(() => {
     $("#modal-button").click(() => {
       $(".modal-body").html("");
-      $.get("api/courses", (results = {}) => {
+      $.get(`/api/courses/no-jwt`, (results = {}) => {
         let data = results.data;
         if (!data || !data.courses) return;
         data.courses.forEach(course => {
@@ -24,7 +24,7 @@ let addJoinButtonListener = () => {
   $(".join-btn").click((event) => {
     let $button = $(event.target),
       courseId = $button.data("id");
-    $.get(`/api/courses/${courseId}/join`, (results = {}) => {
+    $.get(`/api/courses/no-jwt/${courseId}/join`, (results = {}) => {
       let data = results.data;
       if (data && data.success) {
         $button
