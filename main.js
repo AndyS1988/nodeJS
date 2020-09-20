@@ -69,6 +69,8 @@ app.use((req, res, next) => {
 
 app.use("/", router);
 
-app.listen(app.get("port"), () => {
-    console.log(`Server running at http://localhost:${app.get("port")}`);
-});
+const server = app.listen(app.get("port"), () => {
+  console.log(`Server running at http://localhost: ${app.get("port")}`);
+}),
+  io = require("socket.io")(server);
+require("./controllers/chatController")(io);

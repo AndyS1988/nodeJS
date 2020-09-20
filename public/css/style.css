@@ -92,6 +92,27 @@ a.btn-primary:not(:disabled):not(.disabled):active {
     background-color: #f1faee;
 }
 
+.chat-container {
+    min-width: 380px;
+    padding: 30px;
+    border: 1px solid grey;
+    border-radius: 15px;
+    background-color: rgba(0,0,0, 0.1);
+}
+
+#chat {
+    margin-top: 15px;
+    min-width: 300px;
+    min-height: 150px;
+    background-color: #f1faee;
+    border-radius: 15px;
+    text-align: left;
+}
+
+#chat > span {
+    padding: 5px 10px;
+}
+
 /*Util Classes*/
 .centered-flex {
     display: flex;

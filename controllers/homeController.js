@@ -1,24 +1,13 @@
 "use strict";
 
-const courses = [
-    {
-        title: "Event Loop Cakes",
-        cost: 100
-    },
-    {
-        title: "Asynchronous Dips",
-        cost: 200
-    },
-    {
-        title: "Pure Fondue",
-        cost: 300
-    }
-]
-
 module.exports = {
     showHomePage: (req, res) => {
         res.render("index");
     },
+    chat: (req, res) => {
+        res.render("chat");
+    }
+    /*
     showCourses: (req, res) => {
         res.render("courses", {offeredCourses: courses});
     },
@@ -27,5 +16,5 @@ module.exports = {
     },
     postedSignUpForm: (req, res) => {
         res.render("thanks");
-    }
+    }*/
 }
