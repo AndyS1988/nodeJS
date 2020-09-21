@@ -1,30 +1,61 @@
 $(document).ready(() => {
-  //Chat functinality:   
+  //Chat:
   const socket = io();
 
     $("#chatForm").submit(() => {
-      socket.emit("message");
+      let text = $("#chat-input").val(),
+        userId = $("#chat-user-id").val();
+        userName =$("#chat-user-name").val()
+      socket.emit("message", {
+        content: text,
+        userId: userId,
+        userName: userName
+      });
       $("#chat-input").val("");
       return false;
     });
 
-    socket.on("message", message => {
-      displayMessage(message.content);
+    socket.on("user disconnected", () => {
+     // displayMessage({userName: "Notice", content: "User left chat"});
+     console.log("Notice: User left chat");
     });
 
-    let displayMessage = message => {
-     // $("#chat").prepend($("<span class='text-muted small'>").html(timestamp));
-     // $("#chat").append($("<span>").html(message));
-     // $("#chat").append($("<br>"));
+    socket.on("load all messages", (data) => {
+      data.forEach(message => {
+        displayMessage(message);
+      });
+    });
+
+    socket.on("message", message => {
+      displayMessage(message);
+      for(let i = 0; i < 2; i++) {
+        $(".chat-icon").fadeOut(200).fadeIn(200);
+      }
+    });
+
+    let displayMessage = (message) => {
       $("#chat").append(
         `<div style="padding: 5px 10px">
-          <span class='text-muted small'>${timestamp}:</span>
-          <span>${message}</span>
+          <span class="message ${getCurrentUserClass(message.user)}">
+          <strong>${message.userName}: </strong>${message.content}</span><br>
+          <span class='text-muted small'>${formatDate(message.createdAt)}</span>
         </div>`
       );
     };
 
-    // modal functionality
+    let getCurrentUserClass = (id) => {
+      let userId = $("#chat-user-id").val();
+      return userId === id ? "current-user": "";
+    }
+
+    let formatDate = (timestamp) => {
+      if(timestamp) {
+        let tempArray = timestamp.split("T");
+      return tempArray[0];
+      } else return "just now";
+    }
+
+    //Modal:
     $("#modal-button").click(() => {
       $(".modal-body").html("");
       $.get(`/api/courses/no-jwt`, (results = {}) => {
@@ -64,23 +95,3 @@ let addJoinButtonListener = () => {
     });
   });
 }
-
-//time stamp functionality: 
-var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var d = new Date();
-var day = days[d.getDay()];
-var hr = d.getHours();
-var min = d.getMinutes();
-if (min < 10) {
-    min = "0" + min;
-}
-var ampm = "am";
-if( hr > 12 ) {
-    hr -= 12;
-    ampm = "pm";
-}
-var date = d.getDate();
-var month = months[d.getMonth()];
-var year = d.getFullYear();
-var timestamp = day + " " + hr + ":" + min + ampm + " " + date + " " + month + " " + year;

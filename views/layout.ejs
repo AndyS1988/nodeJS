@@ -23,7 +23,12 @@
 	<div id="container">
 		<%- body %>
 	</div>
-	<div id="footer" class="text-uppercase">footer</div>
+	<div id="footer" class="text-uppercase">
+		<p>Footer</p>
+		<a href="/chat" title="open chat" aria-label="Go to chat page" style="position: absolute; top: -20px; right: 15px;">
+			<img class="chat-icon" src="/images/chat.svg" alt="chat icon" width="60px" height="60px">
+		</a>
+	</div>
 
 	<!-- courses modal (cannot be inside any other element so it is not rendered beghind the overlay -->
 	<div class="modal" id="coursesModal" tabindex="-1" aria-labelledby="coursesModal" aria-hidden="true">
@@ -45,6 +50,7 @@
 	<script type="text/javascript" src="/css/js/bootstrap.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/js/recipeApp.js"></script>
+	<script type="text/javascript" src="/js/confetti.js"></script>
 </body>
 
 </html>

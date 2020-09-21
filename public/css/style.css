@@ -12,6 +12,12 @@ main {
     height: 100vh;
 }
 
+canvas {
+    width: 100%;
+    height: 100vh;
+}
+
+
 nav.bg-light {
     background-color: rgba(0, 0, 0, .3) !important;
 }
@@ -93,7 +99,7 @@ a.btn-primary:not(:disabled):not(.disabled):active {
 }
 
 .chat-container {
-    min-width: 380px;
+    min-width: 480px;
     padding: 30px;
     border: 1px solid grey;
     border-radius: 15px;
@@ -101,12 +107,20 @@ a.btn-primary:not(:disabled):not(.disabled):active {
 }
 
 #chat {
-    margin-top: 15px;
-    min-width: 300px;
+    margin-top: 30px;
+    min-width: 350px;
     min-height: 150px;
+    max-height: 500px;
+    overflow: hidden;
+    overflow-y: scroll;
     background-color: #f1faee;
-    border-radius: 15px;
+    border-radius: .25rem;
     text-align: left;
+}
+
+#chat .current-user {
+    text-align: right;
+    color: #A55959;
 }
 
 #chat > span {
