@@ -14,10 +14,7 @@ const express = require("express"),
   User = require("./models/user");
 
 mongoose.Promise = global.Promise; //making sure I can use ES6 promise:  
-mongoose.connect(
-  "mongodb://localhost:27017/project_db",
-   { useNewUrlParser: true }
-);
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/project_db", { useNewUrlParser: true });
 mongoose.set("useCreateIndex", true);
 
 const db = mongoose.connection;  
@@ -73,4 +70,4 @@ const server = app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost: ${app.get("port")}`);
 }),
   io = require("socket.io")(server);
-require("./controllers/chatController")(io);
+require("./controllers/chatController")(io); // require chatController and pass in IO as an object
