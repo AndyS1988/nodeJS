@@ -6,8 +6,6 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Zip Code</th>
-                <th>Subsriber Account</th>
-                <th>Courses</th>
                 <th>Edit</th>
                 <th>Deleter</th>
             </tr>
@@ -27,16 +25,6 @@
                 </td>
                 <td>
                     <%= user.zipCode %>
-                </td>
-                <td>
-                    <%= user.subscribedAccount %>
-                </td>
-                <td>
-                    <% user.courses.forEach(course => { %>
-                        <span>
-                            <%= course %>
-                        </span>
-                        <% }); %>
                 </td>
                 <td>
                     <a href="<%= `/users/${user._id}/edit` %>">Edit</a>
